@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="./vendors/mdl/material.min.css">
+    <script src="./vendors/mdl/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Artisp</span>
+            </div>
+        </header>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <div >
+                    <!-- Textfield with Floating Label -->
+
+                    <form action="#">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="artist">
+                            <label class="mdl-textfield__label" for="artist">Artist</label>
+                        </div>
+
+                        <!-- Colored FAB button with ripple -->
+                        <button onclick="searchArtist()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                        <i class="material-icons">search</i>
+                    </button>
+                    </form>
+
+                    <div id="searchArtistResult">
+
+                    </div>
+
+                    <script id="artist-card" type="text/template">
+                        <div class="mdl-card mdl-cell mdl-shadow--6dp">
+                            <div class="mdl-card__title">
+                                <span class="mdl-card__title-text">{{name}}</span>
+                            </div>
+                        </div>
+                    </script>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        function searchArtist() {
+            var artistInputValue = document.getElementById('artist').value;
+            if (!artistInputValue) {
+                alert('Artist not informed!');
+                return;
+            }
+            var url = 'http://musicbrainz.org/ws/2/artist/?query=artist:' + artistInputValue + '&fmt=json';
+            fetch(url).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                var searchArtistResult = document.getElementById('searchArtistResult');
+                searchArtistResult.innerHTML = '';
+                data.artists.forEach(function (artist) {
+                    var artistCard = generateArtistCard(artist);
+                    searchArtistResult.insertAdjacentHTML('beforeend', artistCard);
+                }, this);
+            });
+        }
+
+        function generateArtistCard(artist) {
+            var template = document.getElementById('artist-card').innerHTML;
+            template = template.replace('{{name}}', artist.name);
+            return template;
+        }
+    </script>
+
+</body>
+
+</html>
