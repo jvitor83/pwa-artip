@@ -32,7 +32,7 @@
                 <div >
                     <!-- Textfield with Floating Label -->
 
-                    <form action="#">
+                    <form>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                             <input class="mdl-textfield__input" type="text" id="artist">
                             <label class="mdl-textfield__label" for="artist">Artist</label>
@@ -69,7 +69,7 @@
                 alert('Artist not informed!');
                 return;
             }
-            var url = 'http://musicbrainz.org/ws/2/artist/?query=artist:' + artistInputValue + '&fmt=json';
+            var url = 'https://musicbrainz.org/ws/2/artist/?query=artist:' + artistInputValue + '&fmt=json';
             fetch(url).then(function (response) {
                 return response.json();
             }).then(function (data) {
