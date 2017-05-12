@@ -10,6 +10,8 @@
     <script src="./vendors/mdl/material.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+    <script src="./vendors/fetch/fetch.js"></script>
+    <script src="./vendors/es6-promise/es6-promise.js"></script>
 
     <link rel="manifest" href="manifest.json">
     <script>
@@ -29,34 +31,45 @@
         </header>
         <main class="mdl-layout__content">
             <div class="page-content">
-                <div >
-                    <!-- Textfield with Floating Label -->
+                <div class="mdl-grid">
+                    <div class="mdl-layout--fixed-header">
+                        <form onsubmit="searchArtist();return false">
 
-                    <form>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" id="artist">
-                            <label class="mdl-textfield__label" for="artist">Artist</label>
-                        </div>
+                            <!-- Textfield with Floating Label -->
+                            <div class="mdl-cell">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" autofocus type="text" id="artist">
+                                    <label class="mdl-textfield__label" for="artist">Artist</label>
+                                </div>
 
-                        <!-- Colored FAB button with ripple -->
-                        <button onclick="searchArtist()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                        <i class="material-icons">search</i>
-                    </button>
-                    </form>
-
-                    <div id="searchArtistResult">
-
-                    </div>
-
-                    <script id="artist-card" type="text/template">
-                        <div class="mdl-card mdl-cell mdl-shadow--6dp">
-                            <div class="mdl-card__title">
-                                <span class="mdl-card__title-text">{{name}}</span>
+                                <!-- Colored FAB button with ripple -->
+                                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                    <i class="material-icons">search</i>
+                                </button>
                             </div>
-                        </div>
-                    </script>
+
+                        </form>
+                    </div>
+                </div>
+                <div id="searchArtistResult">
 
                 </div>
+
+                <script id="artist-card" type="text/template">
+                    <div class="mdl-card mdl-cell mdl-shadow--6dp">
+                        <div class="mdl-card__title">
+                            <span class="mdl-card__title-text">{{name}}</span>
+                        </div>
+                        <div class="mdl-card__supporting-text">
+                            <span><label>Origem: </label>{{local}}</span>
+                        </div>
+                        <div class="mdl-card__supporting-text">
+                            <span><label>Tempo: </label>{{life-span.begin}} - {{life-span.end}}</span>
+                        </div>
+                    </div>
+                </script>
+
+
             </div>
         </main>
 
@@ -78,13 +91,16 @@
                 data.artists.forEach(function (artist) {
                     var artistCard = generateArtistCard(artist);
                     searchArtistResult.insertAdjacentHTML('beforeend', artistCard);
-                }, this);
+                });
             });
         }
 
         function generateArtistCard(artist) {
             var template = document.getElementById('artist-card').innerHTML;
             template = template.replace('{{name}}', artist.name);
+            template = template.replace('{{local}}', artist.area.name);
+            template = template.replace('{{life-span.begin}}', artist['life-span'].begin);
+            template = template.replace('{{life-span.end}}', artist['life-span'].end);
             return template;
         }
     </script>
