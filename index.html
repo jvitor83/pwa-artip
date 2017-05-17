@@ -112,9 +112,9 @@
                         <div class="mdl-card__supporting-text artist-card-text">
                             <span><label>Origem: </label>{{local}}</span>
                         </div>
-                        <div class="mdl-card__supporting-text artist-card-text">
+                        <!--<div class="mdl-card__supporting-text artist-card-text">
                             <span><label>Duração: </label>{{life-span.begin}} - {{life-span.end}}</span>
-                        </div>
+                        </div>-->
                     </div>
                 </script>
 
@@ -133,7 +133,7 @@
             }
             var searchArtistResult = document.getElementById('searchArtistResult');
             searchArtistResult.innerHTML = '';
-            var url = 'https://musicbrainz.org/ws/2/artist/?fmt=json&query=artist:' + artistInputValue;
+            var url = 'https://api.musixmatch.com/ws/1.1/artist.search?apikey=a2092c783aa8162ca77beab498103c8c&page_size=10&page=1&q=' + artistInputValue;
             fetch(url).then(function (response) {
                 return response.json();
             }).then(function (data) {
@@ -146,10 +146,10 @@
 
         function generateArtistCard(artist) {
             var template = document.getElementById('artist-card').innerHTML;
-            template = template.replace('{{name}}', artist.name);
-            template = template.replace('{{local}}', artist.area.name);
-            template = template.replace('{{life-span.begin}}', artist['life-span'].begin || 'indefinido');
-            template = template.replace('{{life-span.end}}', artist['life-span'].end || 'indefinido');
+            template = template.replace('{{name}}', artist.artist_name);
+            template = template.replace('{{local}}', artist.artist_country);
+            //template = template.replace('{{life-span.begin}}', artist['life-span'].begin || 'indefinido');
+            //template = template.replace('{{life-span.end}}', artist['life-span'].end || 'indefinido');
             return template;
         }
     </script>
