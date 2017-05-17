@@ -1,17 +1,17 @@
 {
-    "name": "Artip",
-    "short_name": "Artip",
+    "name": "Artis",
+    "short_name": "Artis",
     "description": "Artist searcher!",
     "icons": [
         {
             "src": "icon.png",
-            "sizes": "144x144",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ],
     "start_url": "./",
     "display": "standalone",
     "orientation": "any",
-    "theme_color": "#3fa652",
-    "background_color": "#3fa652"
+    "theme_color": "#3E4EB8",
+    "background_color": "#3E4EB8"
 }
