@@ -11,7 +11,7 @@ module.exports = {
   ],
   "stripPrefix": "",
   "runtimeCaching": [{
-    "urlPattern": /^https:\/\/musicbrainz.org\//,
+    "urlPattern": /^https:\/\/api.musixmatch.com\//,
     "handler": "networkFirst"
   }]
 }
