@@ -10,9 +10,10 @@
     <script src="./vendors/mdl/material.min.js"></script>
     <link rel="stylesheet" href="./vendors/mdl/material.icons.css">
 
-
-    <script src="./vendors/fetch/fetch.js"></script>
     <script src="./vendors/es6-promise/es6-promise.js"></script>
+    <script src="./vendors/fetch/fetch.js"></script>
+    <script src="./vendors/fetch-jsonp/fetch-jsonp.js"></script>
+    
 
     <link rel="manifest" href="manifest.json">
     <script src="./vendors/pwacompat/pwacompat.min.js"></script>
@@ -107,14 +108,11 @@
                 <script id="artist-card" type="text/template">
                     <div class="mdl-card mdl-cell mdl-shadow--6dp artist-card">
                         <div class="mdl-card__title artist-card-title">
-                            <span class="mdl-card__title-text artist-card-title-content">{{name}}</span>
+                            <a href="{{url}}"><span class="mdl-card__title-text artist-card-title-content">{{name}}</span></a>
                         </div>
                         <div class="mdl-card__supporting-text artist-card-text">
                             <span><label>Origem: </label>{{local}}</span>
                         </div>
-                        <!--<div class="mdl-card__supporting-text artist-card-text">
-                            <span><label>Duração: </label>{{life-span.begin}} - {{life-span.end}}</span>
-                        </div>-->
                     </div>
                 </script>
 
@@ -133,12 +131,12 @@
             }
             var searchArtistResult = document.getElementById('searchArtistResult');
             searchArtistResult.innerHTML = '';
-            var url = 'https://api.musixmatch.com/ws/1.1/artist.search?apikey=a2092c783aa8162ca77beab498103c8c&page_size=10&page=1&q=' + artistInputValue;
-            fetch(url).then(function (response) {
+            var url = 'https://api.musixmatch.com/ws/1.1/artist.search?apikey=a2092c783aa8162ca77beab498103c8c&page_size=10&page=1&format=jsonp&callback=callback&q=' + artistInputValue;
+            fetchJsonp(url).then(function (response) {
                 return response.json();
             }).then(function (data) {
-                data.artists.forEach(function (artist) {
-                    var artistCard = generateArtistCard(artist);
+                data.message.body.artist_list.forEach(function (data) {
+                    var artistCard = generateArtistCard(data.artist);
                     searchArtistResult.insertAdjacentHTML('beforeend', artistCard);
                 });
             });
@@ -148,6 +146,7 @@
             var template = document.getElementById('artist-card').innerHTML;
             template = template.replace('{{name}}', artist.artist_name);
             template = template.replace('{{local}}', artist.artist_country);
+            template = template.replace('{{url}}', artist.artist_share_url);
             //template = template.replace('{{life-span.begin}}', artist['life-span'].begin || 'indefinido');
             //template = template.replace('{{life-span.end}}', artist['life-span'].end || 'indefinido');
             return template;
