@@ -17,6 +17,20 @@
     <link rel="manifest" href="manifest.json">
     <script src="./vendors/pwacompat/pwacompat.min.js"></script>
 
+    <!-- https://realfavicongenerator.net -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
+    <link rel="manifest" href="./icons/manifest.json">
+    <link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="./icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Artis">
+    <meta name="application-name" content="Artis">
+    <meta name="msapplication-TileColor" content="#3e4eb8">
+    <meta name="msapplication-TileImage" content="./icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="./icons/browserconfig.xml">
+    <meta name="theme-color" content="#3e4eb8">
+
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js');
@@ -134,8 +148,8 @@
             var template = document.getElementById('artist-card').innerHTML;
             template = template.replace('{{name}}', artist.name);
             template = template.replace('{{local}}', artist.area.name);
-            template = template.replace('{{life-span.begin}}', artist['life-span'].begin);
-            template = template.replace('{{life-span.end}}', artist['life-span'].end);
+            template = template.replace('{{life-span.begin}}', artist['life-span'].begin || 'indefinido');
+            template = template.replace('{{life-span.end}}', artist['life-span'].end || 'indefinido');
             return template;
         }
     </script>
